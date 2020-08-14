@@ -4,7 +4,7 @@
  * Copyright (c) 2020 Tomohisa Oda
  */
 
-import { Github, Issue } from './github'
+import { Github } from './github'
 
 export class GmailToGithubIssues {
   private gh: Github
@@ -21,9 +21,9 @@ export class GmailToGithubIssues {
     this.config = c
   }
 
-  public run() {
-    let mails: Mail[] = []
-    let messages: GoogleAppsScript.Gmail.GmailMessage[] = []
+  public run(): void {
+    const mails: Mail[] = []
+    const messages: GoogleAppsScript.Gmail.GmailMessage[] = []
     const start = 0
     const max = 20
 
