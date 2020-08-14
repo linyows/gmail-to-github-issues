@@ -1,0 +1,25 @@
+{
+  "name": "gmail-to-github-issues",
+  "version": "1.0.0",
+  "description": "This creates Github issues from an unread mail with the specified label on GAS.",
+  "scripts": {
+    "ci": "npm i && npm run lint",
+    "lint": "eslint ./src/**/*.ts",
+    "lint:fix": "eslint --fix ./src/**/*.ts"
+  },
+  "author": "linyows",
+  "license": "MIT",
+  "devDependencies": {
+    "@google/clasp": "^2.3.0",
+    "@types/google-apps-script": "^1.0.14",
+    "@typescript-eslint/eslint-plugin": "^3.7.0",
+    "@typescript-eslint/parser": "^3.7.0",
+    "eslint": "^7.5.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.0.5"
+  },
+  "tslintIgnore": [
+    "**/node_modules/**"
+  ]
+}
