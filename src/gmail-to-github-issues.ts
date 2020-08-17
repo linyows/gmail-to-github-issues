@@ -72,7 +72,7 @@ Body:
 ${m.body}
 ~~~
 
-:octocat: ${this.config.projectUrl}
+:octocat: Posted by [Gmail to GitHub Issues](${this.config.projectUrl})
 `
   }
 
