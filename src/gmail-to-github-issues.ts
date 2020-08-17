@@ -78,7 +78,7 @@ ${m.body}
 
   public createIssues(): void {
     for (const mail of this.mails) {
-      const labels = { ...mail.labels }
+      const labels = mail.labels
       if (this.config.github.label !== undefined && this.config.github.label !== '') {
         labels.push(this.config.github.label)
       }
