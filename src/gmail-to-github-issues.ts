@@ -39,13 +39,14 @@ export class GmailToGithubIssues {
       const thread = GmailApp.search(`label:${label} is:unread newer_than:7d`, start, max)
       console.log(`${label}: ${thread.length}`)
 
-      for (const m of thread) {
-        const id = m.getId()
+      for (const t of threads) {
+        const id = t.getId()
         const msg = GmailApp.getMessageById(id)
+        const labels = t.getLabels().map(l => l.getName())
         this.gmailMessages.push(msg)
         this.mails.push({
           id,
-          label,
+          labels,
           subject: msg.getSubject(),
           date: msg.getDate(),
           to: msg.getTo(),
@@ -88,7 +89,7 @@ ${mail.body}
 
 type Mail = {
   id: string
-  label: string
+  labels: string[]
   subject: string
   date: GoogleAppsScript.Base.Date
   to: string
