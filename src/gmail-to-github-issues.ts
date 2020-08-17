@@ -34,8 +34,7 @@ export class GmailToGithubIssues {
   public fetchMails(): void {
     const start = 0
     const max = this.config.gmail.max ? this.config.gmail.max : 20
-    const conditions = this.config.gmail.searchConditions ?
-      this.config.gmail.searchConditions : `is:unread newer_than:7d`
+    const conditions = this.config.gmail.searchConditions ? this.config.gmail.searchConditions : `is:unread newer_than:7d`
 
     for (const label of this.config.gmail.labels) {
       const threads = GmailApp.search(`label:${label} ${conditions}`, start, max)
@@ -103,12 +102,14 @@ type Mail = {
   body: string
 }
 
+type IssueTemplate = (m: Mail) => string
+
 type GithubConfig = {
   repo: string
   token: string
   label?: string
   apiEndpoint?: string
-  template?: Function
+  template?: IssueTemplate
 }
 
 type GmailConfig = {
