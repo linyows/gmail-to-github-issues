@@ -9,6 +9,8 @@ import { Github } from './github'
 export class GmailToGithubIssues {
   private gh: Github
   private config: Config
+  private mails: Mail[]
+  private gmailMessages: GoogleAppsScript.Gmail.GmailMessage[]
 
   private get github(): Github {
     if (this.gh === undefined) {
@@ -19,11 +21,17 @@ export class GmailToGithubIssues {
 
   constructor(c: Config) {
     this.config = c
+    this.mails = []
+    this.gmailMessages = []
   }
 
   public run(): void {
-    const mails: Mail[] = []
-    const messages: GoogleAppsScript.Gmail.GmailMessage[] = []
+    this.fetchMails()
+    this.createIssues()
+    GmailApp.markMessagesRead(this.gmailMessages)
+  }
+
+  public fetchMails(): void {
     const start = 0
     const max = 20
 
@@ -34,8 +42,8 @@ export class GmailToGithubIssues {
       for (const m of thread) {
         const id = m.getId()
         const msg = GmailApp.getMessageById(id)
-        messages.push(msg)
-        mails.push({
+        this.gmailMessages.push(msg)
+        this.mails.push({
           id,
           label,
           subject: msg.getSubject(),
@@ -46,8 +54,10 @@ export class GmailToGithubIssues {
         })
       }
     }
+  }
 
-    for (const mail of mails) {
+  public createIssues(): void {
+    for (const mail of this.mails) {
       const labels = [mail.label]
       if (this.config.github.label !== undefined && this.config.github.label !== '') {
         labels.push(this.config.github.label)
@@ -73,8 +83,6 @@ ${mail.body}
         labels,
       })
     }
-
-    GmailApp.markMessagesRead(messages)
   }
 }
 
