@@ -33,11 +33,13 @@ export class GmailToGithubIssues {
 
   public fetchMails(): void {
     const start = 0
-    const max = 20
+    const max = this.config.gmail.max ? this.config.gmail.max : 20
+    const conditions = this.config.gmail.searchConditions ?
+      this.config.gmail.searchConditions : `is:unread newer_than:7d`
 
     for (const label of this.config.gmail.labels) {
-      const thread = GmailApp.search(`label:${label} is:unread newer_than:7d`, start, max)
-      console.log(`${label}: ${thread.length}`)
+      const threads = GmailApp.search(`label:${label} ${conditions}`, start, max)
+      console.log(`${label}: ${threads.length}`)
 
       for (const t of threads) {
         const id = t.getId()
@@ -57,30 +59,34 @@ export class GmailToGithubIssues {
     }
   }
 
+  public defaultTemplate(m: Mail): string {
+    return `:mailbox_with_mail: Received this email:
+
+~~~
+ID: ${m.id}
+Date: ${m.date.toString()}
+From: ${m.from}
+To: ${m.to}
+Subject: ${m.subject}
+Body:
+
+${m.body}
+~~~
+
+:octocat: ${this.config.projectUrl}
+`
+  }
+
   public createIssues(): void {
     for (const mail of this.mails) {
-      const labels = [mail.label]
+      const labels = { ...mail.labels }
       if (this.config.github.label !== undefined && this.config.github.label !== '') {
         labels.push(this.config.github.label)
       }
 
       this.github.createIssue(this.config.github.repo, {
         title: mail.subject,
-        body: `:mailbox_with_mail: Received this email:
-
-~~~
-ID: ${mail.id}
-Date: ${mail.date.toString()}
-From: ${mail.from}
-To: ${mail.to}
-Subject: ${mail.subject}
-Body:
-
-${mail.body}
-~~~
-
-:octocat: ${this.config.projectUrl}
-`,
+        body: this.config.github.template ? this.config.github.template(mail) : this.defaultTemplate(mail),
         labels,
       })
     }
@@ -102,10 +108,13 @@ type GithubConfig = {
   token: string
   label?: string
   apiEndpoint?: string
+  template?: Function
 }
 
 type GmailConfig = {
   labels: string[]
+  searchConditions?: string
+  max?: number
 }
 
 type Config = {
