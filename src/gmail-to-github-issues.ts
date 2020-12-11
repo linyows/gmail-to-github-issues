@@ -87,7 +87,12 @@ ${m.body}
 
   public createIssues(): void {
     for (const mail of this.mails) {
-      const labels = mail.labels
+      const labels = []
+      for (const l of mail.labels) {
+        if (l !== GmailToGithubIssues.ISSUED_LABEL) {
+          labels.push(l)
+        }
+      }
       if (this.config.github.label !== undefined && this.config.github.label !== '') {
         labels.push(this.config.github.label)
       }
