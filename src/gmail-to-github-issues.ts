@@ -10,7 +10,9 @@ export class GmailToGithubIssues {
   private gh: Github
   private config: Config
   private mails: Mail[]
+  private threads: GoogleAppsScript.Gmail.GmailThread[]
   private gmailMessages: GoogleAppsScript.Gmail.GmailMessage[]
+  static ISSUED_LABEL = 'issued'
 
   private get github(): Github {
     if (this.gh === undefined) {
@@ -23,21 +25,28 @@ export class GmailToGithubIssues {
     this.config = c
     this.mails = []
     this.gmailMessages = []
+    this.threads = []
   }
 
   public run(): void {
     this.fetchMails()
     this.createIssues()
+    let label = GmailApp.getUserLabelByName(GmailToGithubIssues.ISSUED_LABEL)
+    if (0 === Object.keys(label).length) {
+      label = GmailApp.createLabel(GmailToGithubIssues.ISSUED_LABEL)
+    }
+    label.addToThreads(this.threads)
     GmailApp.markMessagesRead(this.gmailMessages)
   }
 
   public fetchMails(): void {
     const start = 0
     const max = this.config.gmail.max ? this.config.gmail.max : 20
-    const conditions = this.config.gmail.searchConditions ? this.config.gmail.searchConditions : `is:unread newer_than:7d`
+    const conditions = this.config.gmail.searchConditions ? this.config.gmail.searchConditions : `-{label:${GmailToGithubIssues.ISSUED_LABEL}} newer_than:3d`
 
     for (const label of this.config.gmail.labels) {
       const threads = GmailApp.search(`label:${label} ${conditions}`, start, max)
+      this.threads = this.threads.concat(threads)
       console.log(`${label}: ${threads.length}`)
 
       for (const t of threads) {
