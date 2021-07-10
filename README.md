@@ -1,11 +1,14 @@
-Gmail to GitHub Issues
-==
+<p align="center"><br><br><br><br>
+📧 👉 :octocat:<br>
+<b>Gmail to GitHub Issues</b>
+</p>
 
-This creates Github issues from an unread mail with the specified label on GAS.
-
+<p align="center">
+This creates Github issues from an unread mail with the specified label on GAS.<br>
 <a href="https://github.com/linyows/gmail-to-github-issues/actions" title="actions"><img src="https://img.shields.io/github/workflow/status/linyows/gmail-to-github-issues/Build?style=for-the-badge"></a>
 <a href="https://github.com/google/clasp" title="clasp"><img src="https://img.shields.io/badge/built%20with-clasp-4285f4.svg?style=for-the-badge"></a>
-<a href="https://github.com/linyows/gmail-to-github-issues/blob/master/LICENSE" title="MIT License"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge"></a>
+<a href="https://github.com/linyows/gmail-to-github-issues/blob/main/LICENSE" title="MIT License"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge"></a>
+</p> <br><br><br><br>
 
 Usage
 -----
@@ -36,7 +39,7 @@ Contribution
 1. Fork (https://github.com/linyows/gmail-to-github-issues/fork)
 1. Create a feature branch
 1. Commit your changes
-1. Rebase your local changes against the master branch
+1. Rebase your local changes against the main branch
 1. Run test suite with the `npm ci` command and confirm that it passes
 1. Create a new Pull Request
 
