@@ -32,6 +32,15 @@ export class Github {
     })
     return JSON.parse(res.getContentText())
   }
+
+  public searchIssues(q: string): SearchIssuesResponse {
+    const res = UrlFetchApp.fetch(`${this.config.apiEndpoint}search/issues`, {
+      method: 'get' as const,
+      headers: this.headers,
+      payload: JSON.stringify({ q: encodeURIComponent(q) }),
+    })
+    return JSON.parse(res.getContentText())
+  }
 }
 
 export type Config = {
@@ -127,6 +136,12 @@ export type Issue = {
     patch_url: string
   }
   body: string
+}
+
+type SearchIssuesResponse = {
+  total_count: number
+  incomplete_results: boolean
+  items: Issue[]
 }
 
 type Headers = {
