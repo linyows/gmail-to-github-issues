@@ -85,8 +85,16 @@ ${m.body}
 `
   }
 
+  public isDuplicated(messageId: string): boolean {
+    const result = this.github.searchIssues(`${messageId}+is:issue+repo:${this.config.github.repo}`)
+    return result.total_count > 0
+  }
+
   public createIssues(): void {
     for (const mail of this.mails) {
+      if (this.isDuplicated(mail.id)) {
+        continue
+      }
       const labels = []
       for (const l of mail.labels) {
         if (l !== GmailToGithubIssues.ISSUED_LABEL) {
