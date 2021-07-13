@@ -34,10 +34,9 @@ export class Github {
   }
 
   public searchIssues(q: string): SearchIssuesResponse {
-    const res = UrlFetchApp.fetch(`${this.config.apiEndpoint}search/issues`, {
+    const res = UrlFetchApp.fetch(`${this.config.apiEndpoint}search/issues?q=${encodeURIComponent(q)}`, {
       method: 'get' as const,
       headers: this.headers,
-      payload: JSON.stringify({ q: encodeURIComponent(q) }),
     })
     return JSON.parse(res.getContentText())
   }
