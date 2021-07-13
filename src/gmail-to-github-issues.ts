@@ -106,7 +106,7 @@ ${m.body}
       }
 
       this.github.createIssue(this.config.github.repo, {
-        title: mail.subject,
+        title: `${mail.subject.substr(0, 200)}${mail.subject.length > 200 ? '...' : ''}`, // maximum is 256 character
         body: this.config.github.template ? this.config.github.template(mail) : this.defaultTemplate(mail),
         labels,
       })
