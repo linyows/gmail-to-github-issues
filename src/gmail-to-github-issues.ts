@@ -85,8 +85,16 @@ ${m.body}
 `
   }
 
+  public isDuplicated(messageId: string): boolean {
+    const result = this.github.searchIssues(`${messageId}+is:issue+repo:${this.config.github.repo}`)
+    return result.total_count > 0
+  }
+
   public createIssues(): void {
     for (const mail of this.mails) {
+      if (this.isDuplicated(mail.id)) {
+        continue
+      }
       const labels = []
       for (const l of mail.labels) {
         if (l !== GmailToGithubIssues.ISSUED_LABEL) {
@@ -98,7 +106,7 @@ ${m.body}
       }
 
       this.github.createIssue(this.config.github.repo, {
-        title: mail.subject,
+        title: `${mail.subject.substr(0, 200)}${mail.subject.length > 200 ? '...' : ''}`, // maximum is 256 character
         body: this.config.github.template ? this.config.github.template(mail) : this.defaultTemplate(mail),
         labels,
       })
