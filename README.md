@@ -5,7 +5,7 @@
 
 <p align="center">
 This creates Github issues from an unread mail with the specified label on GAS.<br><br>
-<a href="https://github.com/linyows/gmail-to-github-issues/actions" title="actions"><img src="https://img.shields.io/github/workflow/status/linyows/gmail-to-github-issues/Build?style=for-the-badge"></a>
+<a href="https://github.com/linyows/gmail-to-github-issues/actions" title="actions"><img src="https://img.shields.io/github/actions/workflow/status/linyows/gmail-to-github-issues/build.yml?branch=main&style=for-the-badge"></a>
 <a href="https://github.com/google/clasp" title="clasp"><img src="https://img.shields.io/badge/built%20with-clasp-4285f4.svg?style=for-the-badge"></a>
 <a href="https://github.com/linyows/gmail-to-github-issues/blob/main/LICENSE" title="MIT License"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge"></a>
 </p> <br><br><br><br>
