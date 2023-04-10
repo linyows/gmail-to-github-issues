@@ -50,8 +50,9 @@ export class GmailToGithubIssues {
       console.log(`${label}: ${threads.length}`)
 
       for (const t of threads) {
-        const id = t.getId()
-        const msg = GmailApp.getMessageById(id)
+        const msg = t.getMessages().pop()
+        const from = msg.getFrom()
+        const id = msg.getId()
         const labels = t.getLabels().map(l => l.getName())
         this.gmailMessages.push(msg)
         this.mails.push({
@@ -60,7 +61,7 @@ export class GmailToGithubIssues {
           subject: msg.getSubject(),
           date: msg.getDate(),
           to: msg.getTo(),
-          from: msg.getFrom(),
+          from,
           body: msg.getBody(),
         })
       }
