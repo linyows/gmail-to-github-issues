@@ -52,6 +52,12 @@ export class GmailToGithubIssues {
       for (const t of threads) {
         const msg = t.getMessages().pop()
         const from = msg.getFrom()
+        // ignore own replies
+        const ignore = this.config.domainsToIgnore.find(d => from.includes(d))
+        if (ignore !== undefined) {
+          console.log(`ignored ${from}`)
+          continue
+        }
         const id = msg.getId()
         const labels = t.getLabels().map(l => l.getName())
         this.gmailMessages.push(msg)
@@ -145,4 +151,5 @@ type Config = {
   projectUrl: string
   github: GithubConfig
   gmail: GmailConfig
+  domainsToIgnore: string[]
 }
