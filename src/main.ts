@@ -21,6 +21,10 @@ const g2i = new GmailToGithubIssues({
       .split(',')
       .map(l => l.trim()),
   },
+  domainsToIgnore: PropertiesService.getScriptProperties()
+    .getProperty('DOMAINS_TO_IGNORE')
+    .split(',')
+    .map(l => l.trim()),
 })
 
 /**
