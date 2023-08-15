@@ -6,7 +6,7 @@
 
 import { GmailToGithubIssues } from './gmail-to-github-issues'
 
-const projectUrl = 'https://github.com/linyows/gmail-to-github-issue'
+const projectUrl = 'https://github.com/linyows/gmail-to-github-issues'
 const g2i = new GmailToGithubIssues({
   projectUrl,
   github: {
